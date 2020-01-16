@@ -3,8 +3,8 @@ name: Publish package to npm
 on:
   release:
     types: [published]
-  branches:
-    - master
+    branches:
+      - master
 
 jobs:
   publish:
