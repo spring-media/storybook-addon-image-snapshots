@@ -7,6 +7,7 @@ const {
   STORYBOOK_FRAMEWORK = 'vue',
   STORYBOOK_URL = 'http://host.docker.internal:9001',
   BROWSER_URL = 'http://localhost:9222',
+  SNAPSHOTS_DIR = '.image-snapshots'
 } = process.env;
 
 let browser = null;
@@ -16,7 +17,7 @@ afterAll(async () => {
 });
 
 const getMatchOptions = () => ({
-  customSnapshotsDir: `${process.cwd()}/image_snapshots`,
+  customSnapshotsDir: SNAPSHOTS_DIR,
   customSnapshotIdentifier: ({ currentTestName }) => kebabCase(currentTestName),
 });
 
@@ -29,9 +30,7 @@ const beforeScreenshot = async (page, { context }) => {
         viewports: {},
         defaultViewport: null,
       },
-      imageSnapshot: { selector } = {
-        selector: '#root',
-      },
+      imageSnapshot: { selector } = { selector: '#root' },
     },
   } = context;
 
@@ -39,11 +38,14 @@ const beforeScreenshot = async (page, { context }) => {
 
   await page.waitForSelector(selector);
 
-  const { x, y, width, height } = await page.evaluate(() => {
-    const element = document.querySelector(selector);
-    const rect = element.getBoundingClientRect();
-    return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
-  });
+  const { x, y, width, height } = await page.evaluate(
+    ({ selector }) => {
+      const element = document.querySelector(selector);
+      const { x, y, width, height } = element.getBoundingClientRect();
+      return { x, y, width, height };
+    },
+    { selector }
+  );
 
   context.clip = { x, y, width, height };
 

@@ -1,6 +1,6 @@
 {
   "name": "@spring-media/storybook-addon-image-snapshots",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Storybook plugin for taking image snapshots of your stories based on @storybook/addon-storyshots-puppeteer plugin.",
   "main": "index.js",
   "files": [
@@ -8,12 +8,16 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    ".jest"
+    "files/*",
+    "bin/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .tsx,.ts src",
     "build": "tsc"
+  },
+  "bin": {
+    "image-snapshots": "bin/cli.js"
   },
   "keywords": [
     "storybook",
@@ -27,8 +31,8 @@
   },
   "homepage": "https://github.com/spring-media/storybook-addon-image-snapshots#readme",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/spring-media/storybook-addon-image-snapshots.git"
+    "type": "git",
+    "url": "https://github.com/spring-media/storybook-addon-image-snapshots.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -55,7 +59,9 @@
     "@storybook/vue": "5.3.1",
     "babel-jest": "24.9.0",
     "babel-plugin-require-context-hook": "1.0.0",
+    "commander": "4.1.0",
     "core-js": "3.6.3",
+    "fs-extra": "8.1.0",
     "jest-transform-stub": "2.0.0",
     "jest-vue-preprocessor": "1.7.0",
     "lodash.kebabcase": "4.1.1",
