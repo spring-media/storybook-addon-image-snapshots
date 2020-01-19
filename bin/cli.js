@@ -2,17 +2,16 @@
 
 const program = require('commander');
 const { resolve } = require('path');
-const { copySync } = require('fs-extra');
-
-console.log(resolve('.'));
-console.log(process.cwd());
+const { copyFileSync } = require('fs');
 
 program
-  .command('copy-setup-files')
-  .description('copy setup files for jest as well as the test file')
+  .command('copy-test-file')
+  .description('copy test file into current working directory')
   .action(() => {
-    console.log(resolve(__dirname));
-    console.log(process.cwd());
+    const source = resolve(__dirname, 'image-snapshots.test.js');
+    const dest = `${process.cwd()}/image-snapshots.test.js`;
+
+    copyFileSync(source, dest);
   });
 
 program.parse(process.argv);
