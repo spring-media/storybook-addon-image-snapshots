@@ -1,5 +1,5 @@
 const { copyTestFile } = require('./copy-test-file');
 
-const snapshotDir = `${process.cwd()}/.image-snapshots`;
+const snapshotDir = `${process.env.INIT_CWD}/.image-snapshots`;
 
 copyTestFile({ dest: snapshotDir });
