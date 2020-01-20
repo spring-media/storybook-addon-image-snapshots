@@ -1,6 +1,6 @@
 {
   "name": "@spring-media/storybook-addon-image-snapshots",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Storybook plugin for taking image snapshots of your stories based on @storybook/addon-storyshots-puppeteer plugin.",
   "main": "index.js",
   "files": [
@@ -14,7 +14,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .tsx,.ts src",
-    "build": "tsc"
+    "build": "tsc",
+    "postinstall": "node ./scripts/postinstall.js"
   },
   "bin": {
     "image-snapshots": "bin/cli.js"
