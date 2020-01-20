@@ -2,13 +2,28 @@ import initStoryShots from '@storybook/addon-storyshots';
 import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 import puppeteer from 'puppeteer-core';
 import kebabCase from 'lodash.kebabcase';
+import { existsSync } from 'fs';
 
-const {
-  STORYBOOK_FRAMEWORK = 'vue',
-  STORYBOOK_URL = 'http://host.docker.internal:9001',
-  BROWSER_URL = 'http://localhost:9222',
-  SNAPSHOTS_DIR = '.image-snapshots'
-} = process.env;
+const defaultConfig = {
+  STORYBOOK_FRAMEWORK: 'vue',
+  STORYBOOK_URL: 'http://host.docker.internal:9001',
+  BROWSER_URL: 'http://localhost:9222',
+  SNAPSHOTS_CONFIG_DIR: '.image-snapshots',
+  SNAPSHOTS_IMAGE_DIR: 'snapshots',
+};
+
+const getConfig = () => {
+  let config = defaultConfig;
+  const configPath = `${process.cwd()}/image-snapshots.config.js`;
+
+  if (existsSync(configPath)) {
+    config = require(configPath);
+  }
+
+  return { ...defaultConfig, ...config };
+};
+
+const config = getConfig();
 
 let browser = null;
 
@@ -17,7 +32,7 @@ afterAll(async () => {
 });
 
 const getMatchOptions = () => ({
-  customSnapshotsDir: SNAPSHOTS_DIR,
+  customSnapshotsDir: `${config.SNAPSHOTS_CONFIG_DIR}/${config.SNAPSHOTS_IMAGE_DIR}`,
   customSnapshotIdentifier: ({ currentTestName }) => kebabCase(currentTestName),
 });
 
@@ -69,12 +84,12 @@ const getDesiredViewport = (viewports, defaultViewport) => {
 };
 
 initStoryShots({
-  framework: STORYBOOK_FRAMEWORK,
+  framework: config.STORYBOOK_FRAMEWORK,
   test: imageSnapshot({
-    storybookUrl: STORYBOOK_URL,
+    storybookUrl: config.STORYBOOK_URL,
     getCustomBrowser: async () => {
       browser = await puppeteer.connect({
-        browserURL: BROWSER_URL,
+        browserURL: config.BROWSER_URL,
       });
       return browser;
     },
