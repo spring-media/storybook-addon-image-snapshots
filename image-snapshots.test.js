@@ -1,6 +1,6 @@
 import initStoryShots from '@storybook/addon-storyshots';
 import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import kebabCase from 'lodash.kebabcase';
 
 const {
