@@ -1,8 +1,16 @@
-import React, { FunctionComponent, SyntheticEvent, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactElement, Component } from 'react';
+import { ReactElementLike, Requireable, Validator } from 'prop-types';
 
 interface ImageSnapshotProps {
   snapshot: string;
+  onError?: ReactElement;
+}
+
+interface ImageSnapshotState {
+  isLoaded: boolean;
+  hasError: boolean;
+  width: number;
+  height: number;
 }
 
 const snapshotStyle = {
@@ -10,27 +18,69 @@ const snapshotStyle = {
   margin: '0 auto',
 };
 
-export const ImageSnapshot: FunctionComponent<ImageSnapshotProps> = props => {
-  const { snapshot } = props;
-
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-
-  const onError = (event: SyntheticEvent<HTMLImageElement>): void => {
-    console.log(event);
+export class ImageSnapshot extends Component<ImageSnapshotProps, ImageSnapshotState> {
+  state: Readonly<ImageSnapshotState> = {
+    isLoaded: false,
+    hasError: false,
+    width: 0,
+    height: 0,
   };
 
-  const onLoaded = (event: SyntheticEvent<HTMLImageElement>): void => {
-    const { target } = event;
-    const { naturalWidth, naturalHeight } = target as HTMLImageElement;
+  static propTypes: { onError: Requireable<ReactElementLike>; snapshot: Validator<NonNullable<string>> };
 
-    setWidth(naturalWidth / 2);
-    setHeight(naturalHeight / 2);
-  };
+  onLoaded(image: HTMLImageElement): void {
+    const { naturalWidth, naturalHeight } = image;
 
-  return <img src={snapshot} onError={onError} onLoad={onLoaded} width={width} height={height} style={snapshotStyle} />;
-};
+    this.setState({
+      width: naturalWidth / 2,
+      height: naturalHeight / 2,
+      isLoaded: true,
+      hasError: false,
+    });
+  }
 
-ImageSnapshot.propTypes = {
-  snapshot: PropTypes.string.isRequired,
-};
+  loadImage(source: string): void {
+    const image = new Image();
+    image.src = source;
+    image
+      .decode()
+      .then(() => this.onLoaded(image))
+      .catch(() => {
+        this.setState({
+          hasError: true,
+        });
+      });
+  }
+
+  componentDidMount(): void {
+    const { snapshot } = this.props;
+
+    this.loadImage(snapshot);
+  }
+
+  componentDidUpdate(prevProps: Readonly<ImageSnapshotProps>, prevState: Readonly<ImageSnapshotState>): void {
+    const { snapshot } = this.props;
+    if (prevProps.snapshot === snapshot) {
+      return;
+    }
+
+    this.loadImage(snapshot);
+  }
+
+  render(): ReactElement | null {
+    const { hasError, isLoaded, width, height } = this.state;
+    const { onError, snapshot } = this.props;
+
+    if (hasError && onError) {
+      return onError;
+    }
+
+    if (!isLoaded || hasError) {
+      return null;
+    }
+
+    const imageProps = { width, height, src: snapshot, style: snapshotStyle };
+
+    return <img {...imageProps} />;
+  }
+}

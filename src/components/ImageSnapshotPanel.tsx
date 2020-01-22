@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useStorybookApi } from '@storybook/api';
 import PropTypes from 'prop-types';
+import { Placeholder } from '@storybook/components';
 import { ImageSnapshot } from './ImageSnapshot';
 
 interface ImageSnapshotPanelProps {
@@ -24,7 +25,7 @@ export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = pr
 
   return (
     <div>
-      <ImageSnapshot snapshot={snapshot} />
+      <ImageSnapshot snapshot={snapshot} onError={<Placeholder>No image found.</Placeholder>} />
     </div>
   );
 };
