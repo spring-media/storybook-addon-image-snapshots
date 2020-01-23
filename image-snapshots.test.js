@@ -57,7 +57,7 @@ const beforeScreenshot = async (page, { context }) => {
     ({ selector }) => {
       const element = document.querySelector(selector);
       const { x, y, width, height } = element.getBoundingClientRect();
-      return { x, y, width, height };
+      return { x, y, width: Math.ceil(width), height: Math.ceil(height) };
     },
     { selector }
   );
