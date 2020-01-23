@@ -65,7 +65,22 @@ npm run image-snapshots
 
 ### Testing different viewports
 
-*TODO*
+Testing different viewports requires the official [@storybook/addon-viewport](https://github.com/storybookjs/storybook/tree/master/addons/viewport) to be installed and activated.
+
+Below is an example how to configure your story with the viewport configuration:
+
+```javascript
+export const myStory = () => ({...});
+myStory.story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'small'
+    }
+  }
+};
+```
+
+> This example assumes, that a viewport plugin has a configuration entry with a key "small".
 
 ### Select a specific element for taking a snapshot
 
