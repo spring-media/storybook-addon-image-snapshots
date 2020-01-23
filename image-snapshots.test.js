@@ -62,6 +62,12 @@ const beforeScreenshot = async (page, { context }) => {
     { selector }
   );
 
+  const viewport = page.viewport();
+
+  if (viewport.height < height) {
+    await page.setViewport({ ...viewport, ...{ height } });
+  }
+
   context.clip = { x, y, width, height };
 
   return page;
