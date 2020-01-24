@@ -37,8 +37,6 @@ const getDesiredViewport = (viewports: Viewports, defaultViewport: string): pupp
   };
 };
 
-
-
 const clipMap = new Map();
 
 const getScreenshotOptions = ({ context }: ScreenshotOptions) => ({ clip: clipMap.get(context.story) });

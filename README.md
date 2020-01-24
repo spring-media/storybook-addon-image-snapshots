@@ -16,7 +16,7 @@ See [Why docker?](#why-docker) for a detailed explanation.
     - [Custom configuration](#custom-configuration)
 - [Notes](#notes)
     - [Why Docker?](#why-docker)
-- [Examples](#examples)
+- [Playground](#playground)
 
 ## Getting Started
 
@@ -111,6 +111,7 @@ myStory.story = {
 
 ### Custom Configuration
 
+*TODO*
 
 ## Notes
 
@@ -120,6 +121,6 @@ There are some challenges when it comes to capture screens from a browser as des
 Because of that, we need a way to create a result that is as much as possible independent from the host system. 
 By using docker, we get an isolated system that is reliable enough to produce the same results on different host systems.
 
-## Examples
+## Playground
 
-*TODO*
+Try out the [playground](playground) to find working examples for this plugin.
