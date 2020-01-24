@@ -1,5 +1,3 @@
-# Work in progress, not meant to be used yet.
-
 ## Intro
 
 This plugin uses [@storybook/storyshots-puppeteer](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer) to capture screenshots from your stories.
