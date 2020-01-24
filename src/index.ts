@@ -1,5 +1,5 @@
 import initStoryShots from '@storybook/addon-storyshots';
-import { Context, imageSnapshot, ImageSnapshotConfig } from '@storybook/addon-storyshots-puppeteer';
+import { Context, imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 import puppeteer from 'puppeteer-core';
 import kebabCase from 'lodash.kebabcase';
 import { Config, DEFAULT_CONFIG } from './config';
@@ -53,7 +53,6 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       imageSnapshot: { selector } = { selector: '#root' },
     },
     story,
-    kind,
   } = context;
 
   await page.setViewport(getDesiredViewport(viewports, defaultViewport));
