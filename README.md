@@ -26,8 +26,6 @@ Install the following package:
 npm i @spring-media/storybook-addon-image-snapshots -D
 ```
 
-> After a successfully installation, a postinstall script will try to add a folder `.image-snapshots` in your project root which contains the actual test file.
-
 ## Usage
 
 Within the `.storybook/main.js` add the package to the plugins list:
@@ -38,12 +36,24 @@ module.exports = {
 }
 ```
 
+Create a file `image-snapshots.runner.js` with the following content:
+
+> The file should not be suffixed with '.test.js' to avoid being run with all other test files
+
+```javascript
+import { initImageSnapshots } from '@spring-media/storybook-addon-image-snapshots';
+
+initImageSnapshots();
+```
+
 Add the following entry to the script section of your package.json:
 ```
 "scripts": {
-  "image-snapshots": "jest --config your-specific-jest.config.js .image-snapshots/image-snapshots.test.js"
+  "image-snapshots": "jest --config your-specific-jest.config.js image-snapshots.runner.js"
 }
 ```
+
+> Do not forget to add a rule for the 'runner.js' suffix in jest's testMatch option.
 
 ### Testing with a local running storybook server
 
