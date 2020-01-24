@@ -2,7 +2,9 @@
 
 ## Intro
 
-*TODO*
+This plugin uses [@storybook/storyshots-puppeteer](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer) to capture screenshots from your stories.
+It provides some additional features on top but the main purpose is to run the tests against a (chrome) browser that is running in a docker container.
+See [Why docker?](#why-docker) for a detailed explanation.
 
 ## Table of contents
 - [Installation](#installation)
@@ -109,13 +111,14 @@ myStory.story = {
 
 ### Custom Configuration
 
-*TODO*
 
 ## Notes
 
 ### Why Docker?
 
-*TODO
+There are some challenges when it comes to capture screens from a browser as described [here](https://storybook.js.org/docs/testing/automated-visual-testing/#challenges).
+Because of that, we need a way to create a result that is as much as possible independent from the host system. 
+By using docker, we get an isolated system that is reliable enough to produce the same results on different host systems.
 
 ## Examples
 
