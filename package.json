@@ -1,6 +1,6 @@
 {
   "name": "@spring-media/storybook-addon-image-snapshots",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Storybook plugin for taking image snapshots of your stories based on @storybook/addon-storyshots-puppeteer plugin.",
   "main": "dist/index.js",
   "files": [
@@ -34,10 +34,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@types/jest-image-snapshot": "2.11.1",
-    "@types/lodash.kebabcase": "4.1.6",
+    "@types/lodash": "4.14.149",
     "@types/puppeteer-core": "2.0.0",
-    "@types/react": "16.9.18",
+    "@types/react": "16.9.19",
     "@typescript-eslint/eslint-plugin": "2.17.0",
     "@typescript-eslint/parser": "2.17.0",
     "babel-loader": "8.0.6",
@@ -50,13 +49,12 @@
     "typescript": "3.7.5"
   },
   "dependencies": {
-    "@storybook/addon-storyshots": "5.3.8",
-    "@storybook/addon-storyshots-puppeteer": "5.3.8",
-    "@storybook/addons": "5.3.8",
-    "@storybook/api": "5.3.8",
-    "@storybook/components": "5.3.8",
+    "@storybook/addon-storyshots": "5.3.9",
+    "@storybook/addon-storyshots-puppeteer": "5.3.9",
+    "@storybook/addons": "5.3.9",
+    "@storybook/api": "5.3.9",
+    "@storybook/components": "5.3.9",
     "core-js": "3.6.4",
-    "lodash.kebabcase": "4.1.1",
     "puppeteer-core": "2.0.0"
   },
   "peerDependencies": {

@@ -1,8 +1,12 @@
 ## Intro
 
 This plugin uses [@storybook/storyshots-puppeteer](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer) to capture screenshots from your stories.
-It provides some additional features on top but the main purpose is to run the tests against a (chrome) browser that is running in a docker container.
-See [Why docker?](#why-docker) for a detailed explanation.
+It provided some additional features like:
+- capturing specific viewports (dependency on [@storybook/addon-viewport](https://github.com/storybookjs/storybook/tree/master/addons/viewport))
+- capture only specific elements on the page
+- adds a panel in the storybook ui to display the snapshots
+However, the main purpose is to run the tests against a (chrome) browser that is running in a docker container, please see [Why docker?](#why-docker) for a detailed explanation.
+
 
 ## Table of contents
 - [Installation](#installation)
@@ -107,9 +111,37 @@ myStory.story = {
 };
 ```
 
+### Disable image snapshots for specific stories
+
+To disable specific stories from generating image snapshots, configure your story as follows:
+
+```javascript
+export const myStory = () => ({...});
+myStory.story = {
+  parameters: {
+    storyshots: {
+      disable: true,
+    }
+  }
+};
+```
+
 ### Custom Configuration
 
-*TODO*
+Since this plugin is only a wrapper around storyshots-puppeteer, the signature of `initImageSnapshots` is the same as [initStoryshots](https://github.com/storybookjs/storybook/tree/next/addons/storyshots/storyshots-puppeteer#imagesnapshots).
+But, you should not customize `getCustomBrowser`, `beforeScreenshot#` and `getScreenshotOptions` since there are used internally by this plugin.
+
+**browserUrl**
+
+This url should point to the running docker container (default: http://localhost:9222)
+
+**storybookUrl**
+
+This is the url to your storybook server that is called from within the docker container (default: http://host.docker.internal:9001)
+
+> Make sure your storybook server run on port 9001
+
+> You may ask, what the heck is this host and where does it comes from: host.docker.internal? Find more information here: [docker networking](https://docs.docker.com/docker-for-mac/networking/) why we need to set this host.
 
 ## Notes
 

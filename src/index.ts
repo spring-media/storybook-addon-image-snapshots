@@ -1,9 +1,7 @@
 import initStoryShots from '@storybook/addon-storyshots';
 import { Context, imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 import puppeteer from 'puppeteer-core';
-import kebabCase from 'lodash.kebabcase';
-import { Config, DEFAULT_CONFIG } from './config';
-import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
+import { DEFAULT_CONFIG } from './config';
 
 interface ScreenshotOptions {
   context: Context;
@@ -77,35 +75,27 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
   return page;
 };
 
-export const initImageSnapshots = (config: Config = {}): void => {
+export const initImageSnapshots = (config = {}): void => {
+  let browser: puppeteer.Browser;
+
+  const getCustomBrowser = async () => {
+    browser = await puppeteer.connect({
+      browserURL: browserUrl,
+    });
+    return browser;
+  };
+
+  const imageSnapshotConfig = { getCustomBrowser, beforeScreenshot, getScreenshotOptions };
+  const storyShotsConfig = { ...DEFAULT_CONFIG, ...imageSnapshotConfig, ...config };
+  const { browserUrl } = storyShotsConfig;
+
   afterAll(async () => {
     await browser.close();
   });
 
-  let browser: puppeteer.Browser;
-
-  const { framework, storybookUrl, browserUrl, imageSnapshotsDir } = { ...DEFAULT_CONFIG, ...config };
-
-  const getMatchOptions = (): MatchImageSnapshotOptions => ({
-    customSnapshotsDir: `${imageSnapshotsDir}`,
-    customSnapshotIdentifier: ({ currentTestName }) => kebabCase(currentTestName),
-  });
-
   return initStoryShots({
-    framework,
+    ...storyShotsConfig,
     // @ts-ignore
-    test: imageSnapshot({
-      storybookUrl,
-      getCustomBrowser: async () => {
-        browser = await puppeteer.connect({
-          browserURL: browserUrl,
-        });
-        return browser;
-      },
-      beforeScreenshot,
-      getMatchOptions,
-      getScreenshotOptions,
-      afterScreenshot: () => null,
-    }),
+    test: imageSnapshot({ ...storyShotsConfig }),
   });
 };
