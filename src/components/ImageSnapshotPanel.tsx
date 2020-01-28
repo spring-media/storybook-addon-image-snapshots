@@ -1,31 +1,44 @@
 import React, { FunctionComponent } from 'react';
-import { useStorybookApi } from '@storybook/api';
+import { useParameter, useStorybookApi } from '@storybook/api';
 import PropTypes from 'prop-types';
 import { Placeholder } from '@storybook/components';
 import { ImageSnapshot } from './ImageSnapshot';
+import { PARAM_KEY } from '../constants';
 
-interface ImageSnapshotPanelProps {
+export interface ImageSnapshotPanelProps {
   active: boolean;
 }
 
-export const getSnapshotNameByStoryId = (storyId: string): string =>
-  `storyshots-${storyId.replace('--', '-')}-snap.png`;
+export interface StoryData {
+  id: string;
+  name: string;
+  parameters: {
+    fileName: string;
+    [parameterName: string]: any;
+  };
+}
+
+export interface ImageSnapshotStoryParameters {
+  snapshots: (storyData: StoryData) => string[];
+}
 
 export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = props => {
   const { active } = props;
+  const { getCurrentStoryData, getParameters } = useStorybookApi();
+  const { snapshots } = useParameter(PARAM_KEY, {}) as ImageSnapshotStoryParameters;
 
-  const { getCurrentStoryData } = useStorybookApi();
-
-  if (!active) {
+  if (!active || !getCurrentStoryData()) {
     return null;
   }
 
-  const { id } = getCurrentStoryData();
-  const snapshot = getSnapshotNameByStoryId(id);
+  const { id, name } = getCurrentStoryData();
+  const parameters = getParameters(id);
+
+  const snapshotList = snapshots({ id, name, parameters });
 
   return (
     <div>
-      <ImageSnapshot snapshot={snapshot} onError={<Placeholder>No image found.</Placeholder>} />
+      <ImageSnapshot snapshot={snapshotList[0]} onError={<Placeholder>No image found.</Placeholder>} />
     </div>
   );
 };

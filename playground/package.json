@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "storybook": "start-storybook -p 8888",
+    "storybook": "start-storybook -p 8888 -s .image-snapshots",
     "build-storybook": "build-storybook",
     "image-snapshots": "jest"
   },

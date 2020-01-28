@@ -16,6 +16,7 @@ However, the main purpose is to run the tests against a (chrome) browser that is
     - [Testing different viewports](#testing-different-viewports)
     - [Select a specific element](#select-a-specific-element-for-taking-a-snapshot)
     - [Custom configuration](#custom-configuration)
+    - [Display snapshots in storybook](#display-snapshots-in-storybook)
 - [Notes](#notes)
     - [Why Docker?](#why-docker)
 - [Playground](#playground)
@@ -36,9 +37,11 @@ Within the `.storybook/main.js` add the package to the plugins list:
 
 ```javascript
 module.exports = {
-  addons: ['@spring-media/storybook-addon-image-snapshots/register']
+  addons: ['@spring-media/storybook-addon-image-snapshots']
 }
 ```
+
+> This is optional if you don't want to display the snapshots within storybook
 
 Create a file `image-snapshots.runner.js` with the following content:
 
@@ -129,7 +132,7 @@ myStory.story = {
 ### Custom Configuration
 
 Since this plugin is only a wrapper around storyshots-puppeteer, the signature of `initImageSnapshots` is the same as [initStoryshots](https://github.com/storybookjs/storybook/tree/next/addons/storyshots/storyshots-puppeteer#imagesnapshots).
-But, you should not customize `getCustomBrowser`, `beforeScreenshot#` and `getScreenshotOptions` since there are used internally by this plugin.
+But, you should not customize `getCustomBrowser`, `beforeScreenshot` and `getScreenshotOptions` since there are used internally by this plugin.
 
 **browserUrl**
 
@@ -142,6 +145,55 @@ This is the url to your storybook server that is called from within the docker c
 > Make sure your storybook server run on port 9001
 
 > You may ask, what the heck is this host and where does it comes from: host.docker.internal? Find more information here: [docker networking](https://docs.docker.com/docker-for-mac/networking/) why we need to set this host.
+
+### Display snapshots in storybook
+
+This plugin adds a panel in the storybook ui to display the image snapshots of a story.
+
+First register the addon in the main.js file:
+
+```javascript
+module.exports = {
+  addons: ['@spring-media/storybook-addon-image-snapshots']
+}
+```
+
+Then you have to tell the panel where to find the image(s). You can do this by either add a global parameter in the preview.js file:
+```javascript
+import { addParameters } from '@storybook/vue';
+
+addParameters({
+  imageSnapshots: {
+    snapshots: ({ id }) => [`storyshots-${id.replace('--', '-')}-snap.png`],
+  },
+});
+```
+or in the configuration of a story:
+
+```javascript
+export const myStory = () => ({...});
+myStory.story = {
+  parameters: {
+    imageSnapshots: {
+      snapshots: ({ id }) => [`storyshots-${id.replace('--', '-')}-snap.png`],
+    }
+  }
+};
+```
+
+The last thing is to add the directory of your image snapshots to the static-dir configuration of the storybook server:
+
+```json
+{
+    "scripts": {
+        "storybook": "start-storybook -p 8888 -s .image-snapshots"
+    }
+}
+```
+
+> The example above assumes, that the images are located within the .image-snapshots directory.
+
+Take a look into the [playground](playground) app to see how it works.
 
 ## Notes
 

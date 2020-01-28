@@ -1,6 +1,6 @@
 {
   "name": "@spring-media/storybook-addon-image-snapshots",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Storybook plugin for taking image snapshots of your stories based on @storybook/addon-storyshots-puppeteer plugin.",
   "main": "dist/index.js",
   "files": [
