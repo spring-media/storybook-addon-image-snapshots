@@ -78,7 +78,19 @@ npm run image-snapshots
 
 ### Testing with a local static storybook build
 
-*TODO*
+There are a few thing that has to be changed in order to test a static build of storybook:
+
+```sh
+docker run -p 9222:3000 -d --rm --name chrome -v $(pwd)/storybook-static/:/opt/storybook-static browserless/chrome
+```
+
+> By default, storybook will create a storybook-static directory that contains all static files
+
+> Since the tests are running in a docker container, we must mount the local static directory into the containers file system
+
+Change the `storybookUrl` option (see [Custom Configuration](#custom-configuration)) to `file:///opt/storybook-static`.
+
+Take a look at the [Playground](playground) for a working example.
 
 ### Testing different viewports
 
@@ -148,7 +160,7 @@ This is the url to your storybook server that is called from within the docker c
 
 ### Display snapshots in storybook
 
-This plugin adds a panel in the storybook ui to display the image snapshots of a story.
+This plugin adds a panel in the storybook ui to display the image snapshot of a story.
 
 First register the addon in the main.js file:
 
@@ -158,13 +170,13 @@ module.exports = {
 }
 ```
 
-Then you have to tell the panel where to find the image(s). You can do this by either add a global parameter in the preview.js file:
+Then you have to tell the panel where to find the image. You can do this by either add a global parameter in the preview.js file:
 ```javascript
 import { addParameters } from '@storybook/vue';
 
 addParameters({
   imageSnapshots: {
-    snapshots: ({ id }) => [`storyshots-${id.replace('--', '-')}-snap.png`],
+    snapshots: ({ id }) => `storyshots-${id.replace('--', '-')}-snap.png`,
   },
 });
 ```
@@ -175,7 +187,7 @@ export const myStory = () => ({...});
 myStory.story = {
   parameters: {
     imageSnapshots: {
-      snapshots: ({ id }) => [`storyshots-${id.replace('--', '-')}-snap.png`],
+      snapshots: ({ id }) => `storyshots-${id.replace('--', '-')}-snap.png`,
     }
   }
 };
@@ -193,7 +205,7 @@ The last thing is to add the directory of your image snapshots to the static-dir
 
 > The example above assumes, that the images are located within the .image-snapshots directory.
 
-Take a look into the [playground](playground) app to see how it works.
+Take a look into the [playground](playground) app to see an example how it works.
 
 ## Notes
 

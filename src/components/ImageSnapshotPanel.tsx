@@ -19,13 +19,13 @@ export interface StoryData {
 }
 
 export interface ImageSnapshotStoryParameters {
-  snapshots: (storyData: StoryData) => string[];
+  snapshot: (storyData: StoryData) => string;
 }
 
 export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = props => {
   const { active } = props;
   const { getCurrentStoryData, getParameters } = useStorybookApi();
-  const { snapshots } = useParameter(PARAM_KEY, {}) as ImageSnapshotStoryParameters;
+  const { snapshot } = useParameter(PARAM_KEY, {}) as ImageSnapshotStoryParameters;
 
   if (!active || !getCurrentStoryData()) {
     return null;
@@ -34,11 +34,11 @@ export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = pr
   const { id, name } = getCurrentStoryData();
   const parameters = getParameters(id);
 
-  const snapshotList = snapshots({ id, name, parameters });
+  const image = snapshot({ id, name, parameters });
 
   return (
     <div>
-      <ImageSnapshot snapshot={snapshotList[0]} onError={<Placeholder>No image found.</Placeholder>} />
+      <ImageSnapshot snapshot={image} onError={<Placeholder>No image found.</Placeholder>} />
     </div>
   );
 };
