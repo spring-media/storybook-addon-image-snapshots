@@ -3,4 +3,5 @@ dist
 .idea
 npm-debug.log
 .env
-playground/.image-snapshots
+.image-snapshots
+storybook-static
