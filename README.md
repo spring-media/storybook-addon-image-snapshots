@@ -176,7 +176,7 @@ import { addParameters } from '@storybook/vue';
 
 addParameters({
   imageSnapshots: {
-    snapshots: ({ id }) => `storyshots-${id.replace('--', '-')}-snap.png`,
+    snapshotFileName: ({ id }) => `storyshots-${id}-snap.png`,
   },
 });
 ```
@@ -187,11 +187,13 @@ export const myStory = () => ({...});
 myStory.story = {
   parameters: {
     imageSnapshots: {
-      snapshots: ({ id }) => `storyshots-${id.replace('--', '-')}-snap.png`,
+      snapshotFileName: ({ id }) => `storyshots-${id}-snap.png`,
     }
   }
 };
 ```
+
+> You can customize the filename of the snapshot through [getMatchOptions](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer#specifying-options-to-jest-image-snapshots)
 
 The last thing is to add the directory of your image snapshots to the static-dir configuration of the storybook server:
 

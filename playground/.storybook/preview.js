@@ -20,7 +20,7 @@ const viewports = {
 
 addParameters({
   [PARAM_KEY]: {
-    snapshot: ({ id }) => `storyshots-${id.replace('--', '-')}-snap.png`,
+    snapshotFileName: ({ id }) => `${id.replace('--', '-')}-snap.png`,
   },
   viewport: { viewports },
 });

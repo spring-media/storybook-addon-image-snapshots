@@ -6,8 +6,8 @@ const { MODE = 'server' } = process.env; // @see package.json test:static script
 initImageSnapshots({
   framework: 'html',
   storybookUrl: MODE === 'static' ? 'file:///opt/storybook-static' : 'http://host.docker.internal:8888',
-  getMatchOptions: () => ({
+  getMatchOptions: ({ name, kind = '' }) => ({
     customSnapshotsDir: '.image-snapshots',
-    customSnapshotIdentifier: ({ currentTestName }) => kebabCase(currentTestName),
+    customSnapshotIdentifier: () => kebabCase(`${kind} ${name}`),
   }),
 });

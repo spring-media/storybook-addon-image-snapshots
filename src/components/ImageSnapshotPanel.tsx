@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { useParameter, useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/api';
 import PropTypes from 'prop-types';
 import { Placeholder } from '@storybook/components';
 import { ImageSnapshot } from './ImageSnapshot';
@@ -12,29 +12,25 @@ export interface ImageSnapshotPanelProps {
 export interface StoryData {
   id: string;
   name: string;
-  parameters: {
-    fileName: string;
-    [parameterName: string]: any;
-  };
+  kind: string;
 }
 
 export interface ImageSnapshotStoryParameters {
-  snapshot: (storyData: StoryData) => string;
+  snapshotFileName: (storyData: StoryData) => string;
 }
 
 export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = props => {
   const { active } = props;
-  const { getCurrentStoryData, getParameters } = useStorybookApi();
-  const { snapshot } = useParameter(PARAM_KEY, {}) as ImageSnapshotStoryParameters;
+  const { getCurrentStoryData, getCurrentParameter } = useStorybookApi();
 
   if (!active || !getCurrentStoryData()) {
     return null;
   }
 
-  const { id, name } = getCurrentStoryData();
-  const parameters = getParameters(id);
-
-  const image = snapshot({ id, name, parameters });
+  // @ts-ignore
+  const { id, name, kind } = getCurrentStoryData();
+  const { snapshotFileName } = getCurrentParameter<ImageSnapshotStoryParameters>(PARAM_KEY);
+  const image = snapshotFileName({ id, name, kind });
 
   return (
     <div>

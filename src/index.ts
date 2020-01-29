@@ -2,6 +2,7 @@ import initStoryShots from '@storybook/addon-storyshots';
 import { Context, imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 import puppeteer from 'puppeteer-core';
 import { DEFAULT_CONFIG } from './config';
+import { PARAM_KEY } from './constants';
 
 interface ScreenshotOptions {
   context: Context;
@@ -46,7 +47,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
         viewports: {},
         defaultViewport: null,
       },
-      imageSnapshot: { selector } = { selector: '#root' },
+      [PARAM_KEY]: { selector } = { selector: '#root' },
     },
     story,
   } = context;
