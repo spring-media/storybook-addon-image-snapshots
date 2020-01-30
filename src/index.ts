@@ -47,14 +47,16 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
         viewports: {},
         defaultViewport: null,
       },
-      [PARAM_KEY]: { selector } = { selector: '#root' },
+      [PARAM_KEY]: { selector } = { selector: null },
     },
     story,
   } = context;
 
   await page.setViewport(getDesiredViewport(viewports, defaultViewport));
 
-  await page.waitForSelector(selector);
+  if (selector) {
+    await page.waitForSelector(selector);
+  }
 
   const { x, y, width, height } = await page.evaluate(
     ({ selector }) => {
