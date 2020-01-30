@@ -37,8 +37,14 @@ const getDesiredViewport = (viewports: Viewports, defaultViewport: string): pupp
 };
 
 const clipMap = new Map();
+// @ts-ignore
+const getScreenshotOptions = ({ context: { id } }: ScreenshotOptions) => {
+  if (!clipMap.has(id)) {
+    return {};
+  }
 
-const getScreenshotOptions = ({ context }: ScreenshotOptions) => ({ clip: clipMap.get(context.story) });
+  return { clip: clipMap.get(id) };
+};
 
 const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOptions) => {
   const {
@@ -49,14 +55,17 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       },
       [PARAM_KEY]: { selector } = { selector: null },
     },
-    story,
+    // @ts-ignore
+    id,
   } = context;
 
   await page.setViewport(getDesiredViewport(viewports, defaultViewport));
 
-  if (selector) {
-    await page.waitForSelector(selector);
+  if (!selector) {
+    return page;
   }
+
+  await page.waitForSelector(selector);
 
   const { x, y, width, height } = await page.evaluate(
     ({ selector }) => {
@@ -73,7 +82,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
     await page.setViewport({ ...viewport, ...{ height } });
   }
 
-  clipMap.set(story, { x, y, width, height });
+  clipMap.set(id, { x, y, width, height });
 
   return page;
 };
