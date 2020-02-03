@@ -1,12 +1,12 @@
 import React, { ReactElement, Component } from 'react';
 import { ReactElementLike, Requireable, Validator } from 'prop-types';
 
-interface ImageSnapshotProps {
+export interface ImageSnapshotProps {
   snapshot: string;
   onError?: ReactElement;
 }
 
-interface ImageSnapshotState {
+export interface ImageSnapshotState {
   isLoaded: boolean;
   hasError: boolean;
   width: number;
@@ -58,7 +58,7 @@ export class ImageSnapshot extends Component<ImageSnapshotProps, ImageSnapshotSt
     this.loadImage(snapshot);
   }
 
-  componentDidUpdate(prevProps: Readonly<ImageSnapshotProps>, prevState: Readonly<ImageSnapshotState>): void {
+  componentDidUpdate(prevProps: Readonly<ImageSnapshotProps>): void {
     const { snapshot } = this.props;
     if (prevProps.snapshot === snapshot) {
       return;

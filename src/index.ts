@@ -37,8 +37,10 @@ const getDesiredViewport = (viewports: Viewports, defaultViewport: string): pupp
 };
 
 const clipMap = new Map();
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-const getScreenshotOptions = ({ context: { id } }: ScreenshotOptions) => {
+const getScreenshotOptions = ({ context: { id } }: ScreenshotOptions): object => {
   if (!clipMap.has(id)) {
     return {};
   }
@@ -46,7 +48,7 @@ const getScreenshotOptions = ({ context: { id } }: ScreenshotOptions) => {
   return { clip: clipMap.get(id) };
 };
 
-const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOptions) => {
+const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOptions): Promise<puppeteer.Page> => {
   const {
     parameters: {
       viewport: { viewports, defaultViewport } = {
@@ -55,6 +57,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       },
       [PARAM_KEY]: { selector } = { selector: null },
     },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     id,
   } = context;
@@ -90,9 +93,9 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
 export const initImageSnapshots = (config = {}): void => {
   let browser: puppeteer.Browser;
 
-  const getCustomBrowser = async () => {
+  const getCustomBrowser = async (): Promise<puppeteer.Browser> => {
     browser = await puppeteer.connect({
-      browserURL: browserUrl,
+      browserURL: browserUrl, // eslint-disable-line @typescript-eslint/no-use-before-define
     });
     return browser;
   };
@@ -107,6 +110,7 @@ export const initImageSnapshots = (config = {}): void => {
 
   return initStoryShots({
     ...storyShotsConfig,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     test: imageSnapshot({ ...storyShotsConfig }),
   });

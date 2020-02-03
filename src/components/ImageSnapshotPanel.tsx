@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { useStorybookApi } from '@storybook/api';
 import PropTypes from 'prop-types';
 import { Placeholder } from '@storybook/components';
 import { ImageSnapshot } from './ImageSnapshot';
@@ -7,30 +6,30 @@ import { PARAM_KEY } from '../constants';
 
 export interface ImageSnapshotPanelProps {
   active: boolean;
+  getCurrentStoryData: () => Partial<StoryData>;
+  getCurrentParameter: (param: string) => ImageSnapshotStoryParameters;
 }
 
-export interface StoryData {
+export type StoryData = {
   id: string;
   name: string;
   kind: string;
-}
+};
 
 export interface ImageSnapshotStoryParameters {
   snapshotFileName: (storyData: StoryData) => string;
 }
 
 export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = props => {
-  const { active } = props;
-  const { getCurrentStoryData, getCurrentParameter } = useStorybookApi();
+  const { active, getCurrentStoryData, getCurrentParameter } = props;
 
   if (!active || !getCurrentStoryData()) {
     return null;
   }
 
-  // @ts-ignore
-  const { id, name, kind } = getCurrentStoryData();
-  const { snapshotFileName } = getCurrentParameter<ImageSnapshotStoryParameters>(PARAM_KEY);
-  const image = snapshotFileName({ id, name, kind });
+  const data = getCurrentStoryData();
+  const { snapshotFileName } = getCurrentParameter(PARAM_KEY);
+  const image = snapshotFileName(data as StoryData);
 
   return (
     <div>
@@ -41,4 +40,6 @@ export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = pr
 
 ImageSnapshotPanel.propTypes = {
   active: PropTypes.bool.isRequired,
+  getCurrentParameter: PropTypes.func.isRequired,
+  getCurrentStoryData: PropTypes.func.isRequired,
 };

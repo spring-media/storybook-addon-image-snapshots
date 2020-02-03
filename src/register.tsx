@@ -4,11 +4,19 @@ import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { ImageSnapshotPanel } from './components/ImageSnapshotPanel';
 
 export const register = (): void => {
-  addons.register(ADDON_ID, () => {
+  addons.register(ADDON_ID, ({ getCurrentParameter, getCurrentStoryData }) => {
     addons.addPanel(PANEL_ID, {
       title: 'Image Snapshot',
       paramKey: PARAM_KEY,
-      render: ({ active, key }) => <ImageSnapshotPanel active={active} key={key} />,
+      // eslint-disable-next-line react/prop-types
+      render: ({ active, key }) => (
+        <ImageSnapshotPanel
+          active={active}
+          getCurrentParameter={getCurrentParameter}
+          getCurrentStoryData={getCurrentStoryData}
+          key={key}
+        />
+      ),
     });
   });
 };
