@@ -36,7 +36,7 @@ describe('ImageSnapshotPanel', () => {
     expect.assertions(1);
 
     ((ImageSnapshot as unknown) as jest.Mock).mockReturnValue({
-      render: function() {
+      render: function () {
         const { snapshot } = this.props;
         expect(snapshot).toBe('snapshot.png');
         return null;

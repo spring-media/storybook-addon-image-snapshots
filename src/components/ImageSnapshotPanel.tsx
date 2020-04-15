@@ -20,7 +20,7 @@ export interface ImageSnapshotStoryParameters {
   snapshotFileName: (storyData: StoryData) => string;
 }
 
-export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = props => {
+export const ImageSnapshotPanel: FunctionComponent<ImageSnapshotPanelProps> = (props) => {
   const { active, getCurrentStoryData, getCurrentParameter } = props;
 
   if (!active || !getCurrentStoryData()) {

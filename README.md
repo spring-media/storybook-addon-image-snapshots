@@ -78,7 +78,7 @@ npm run image-snapshots
 
 ### Testing with a local static storybook build
 
-There are a few thing that has to be changed in order to test a static build of storybook:
+There are a few things that has to be changed in order to test a static build of storybook:
 
 ```sh
 docker run -p 9222:3000 -d --rm --name chrome -v $(pwd)/storybook-static/:/opt/storybook-static browserless/chrome
@@ -156,7 +156,7 @@ This is the url to your storybook server that is called from within the docker c
 
 > Make sure your storybook server run on port 9001
 
-> You may ask, what the heck is this host and where does it comes from: host.docker.internal? Find more information here: [docker networking](https://docs.docker.com/docker-for-mac/networking/) why we need to set this host.
+> You may ask what the heck is this host and where does it come from: host.docker.internal? Find more information here: [docker networking](https://docs.docker.com/docker-for-mac/networking/) why we need to set this host.
 
 ### Display snapshots in storybook
 
@@ -205,7 +205,7 @@ The last thing is to add the directory of your image snapshots to the static-dir
 }
 ```
 
-> The example above assumes, that the images are located within the .image-snapshots directory.
+> The example above assumes, that the images are be located within the .image-snapshots directory.
 
 Take a look into the [playground](playground) app to see an example how it works.
 
@@ -214,7 +214,7 @@ Take a look into the [playground](playground) app to see an example how it works
 ### Why Docker?
 
 There are some challenges when it comes to capture screens from a browser as described [here](https://storybook.js.org/docs/testing/automated-visual-testing/#challenges).
-Because of that, we need a way to create a result that is as much as possible independent from the host system. 
+Because of that, we need a way to create a result that is as much as possible independent of the host system. 
 By using docker, we get an isolated system that is reliable enough to produce the same results on different host systems.
 
 ## Playground
