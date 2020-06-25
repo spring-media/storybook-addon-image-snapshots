@@ -21,3 +21,54 @@ SmallViewport.story = {
     },
   },
 };
+
+const largeElementTemplate = `
+<div>
+  <div 
+    class="large-element" 
+    style="
+    background: red; 
+    width: 900px; 
+    height: 2000px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-top: 10px solid green;
+    border-bottom: 10px solid yellow;
+  ">
+  </div>
+</div>`;
+
+export const LargeElementDefaultViewport = () => largeElementTemplate;
+LargeElementDefaultViewport.story = {
+  parameters: {
+    imageSnapshots: {
+      selector: '.large-element',
+    },
+  },
+};
+
+export const LargeElementMediumViewport = () => largeElementTemplate;
+LargeElementMediumViewport.story = {
+  parameters: {
+    imageSnapshots: {
+      selector: '.large-element',
+    },
+    viewport: {
+      defaultViewport: 'medium',
+    },
+  },
+};
+
+export const LargeElementSmallViewport = () => largeElementTemplate;
+LargeElementSmallViewport.story = {
+  parameters: {
+    imageSnapshots: {
+      selector: '.large-element',
+    },
+    viewport: {
+      defaultViewport: 'medium',
+    },
+  },
+};
