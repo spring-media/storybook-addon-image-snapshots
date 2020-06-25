@@ -27,15 +27,15 @@ const largeElementTemplate = `
   <div 
     class="large-element" 
     style="
-    background: red; 
+    background: #495057; 
     width: 900px; 
     height: 2000px;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border-top: 10px solid green;
-    border-bottom: 10px solid yellow;
+    border-top: 10px solid #3EB62B;
+    border-bottom: 10px solid #55ACEE;
   ">
   </div>
 </div>`;
