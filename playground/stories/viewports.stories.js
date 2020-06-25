@@ -28,7 +28,7 @@ const largeElementTemplate = `
     class="large-element" 
     style="
     background: #495057; 
-    width: 900px; 
+    width: 500px; 
     height: 2000px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -68,7 +68,7 @@ LargeElementSmallViewport.story = {
       selector: '.large-element',
     },
     viewport: {
-      defaultViewport: 'medium',
+      defaultViewport: 'small',
     },
   },
 };
