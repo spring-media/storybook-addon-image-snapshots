@@ -5,7 +5,7 @@ import { ImageSnapshot } from './ImageSnapshot';
 import { PARAM_KEY } from '../constants';
 
 export interface ImageSnapshotPanelProps {
-  active: boolean;
+  active: boolean | undefined;
   getCurrentStoryData: () => Partial<StoryData>;
   getCurrentParameter: (param: string) => ImageSnapshotStoryParameters;
 }

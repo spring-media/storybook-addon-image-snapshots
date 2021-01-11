@@ -75,14 +75,21 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       const element = document.querySelector(selector);
       const { x: left, y: top, width, height } = element.getBoundingClientRect();
       const style = getComputedStyle(element);
-      const marginTop = parseInt(style.marginTop);
-      const marginBottom = parseInt(style.marginBottom);
+      const marginTop = parseInt(style.marginTop, 10);
+      const marginBottom = parseInt(style.marginBottom, 10);
+      const paddingTop = parseInt(style.paddingTop, 10);
+      const paddingBottom = parseInt(style.paddingBottom, 10);
+      const borderTopWidth = parseInt(style.borderTopWidth, 10);
+      const borderBottomWidth = parseInt(style.borderBottomWidth, 10);
+
+      const topSize = marginTop + paddingTop + borderTopWidth
+      const bottomSize = marginBottom + paddingBottom + borderBottomWidth
 
       return {
         x: left,
-        y: Math.ceil(top - marginTop),
+        y: Math.ceil(top - topSize),
         width: Math.ceil(width),
-        height: Math.ceil(height + marginTop + marginBottom),
+        height: Math.ceil(height + topSize + bottomSize),
       };
     },
     { selector },
