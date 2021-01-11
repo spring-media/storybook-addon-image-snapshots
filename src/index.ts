@@ -38,8 +38,9 @@ const getDesiredViewport = (viewports: Viewports, defaultViewport: string): pupp
 
 const clipMap = new Map();
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-types
 const getScreenshotOptions = ({ context: { id } }: ScreenshotOptions): object => {
   if (!clipMap.has(id)) {
     return {};
@@ -57,7 +58,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       },
       [PARAM_KEY]: { selector } = { selector: null },
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     id,
   } = context;
@@ -80,9 +81,9 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
 
       return {
         x: left,
-        y: Math.ceil(top - marginTop ),
+        y: Math.ceil(top - marginTop),
         width: Math.ceil(width),
-        height: Math.ceil(height + marginTop + marginBottom ),
+        height: Math.ceil(height + marginTop + marginBottom),
       };
     },
     { selector },
@@ -91,7 +92,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
   const viewport = page.viewport();
 
   if (viewport.height < height) {
-    await page.setViewport({ ...viewport, ...{height: height + y} });
+    await page.setViewport({ ...viewport, ...{ height: height + y } });
   }
 
   clipMap.set(id, { x, y, width, height });
@@ -119,7 +120,7 @@ export const initImageSnapshots = (config = {}): void => {
 
   return initStoryShots({
     ...storyShotsConfig,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     test: imageSnapshot({ ...storyShotsConfig }),
   });
