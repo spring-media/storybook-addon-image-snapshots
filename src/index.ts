@@ -77,19 +77,12 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       const style = getComputedStyle(element);
       const marginTop = parseInt(style.marginTop, 10);
       const marginBottom = parseInt(style.marginBottom, 10);
-      const paddingTop = parseInt(style.paddingTop, 10);
-      const paddingBottom = parseInt(style.paddingBottom, 10);
-      const borderTopWidth = parseInt(style.borderTopWidth, 10);
-      const borderBottomWidth = parseInt(style.borderBottomWidth, 10);
-
-      const topSize = marginTop + paddingTop + borderTopWidth
-      const bottomSize = marginBottom + paddingBottom + borderBottomWidth
 
       return {
         x: left,
-        y: Math.ceil(top - topSize),
+        y: Math.ceil(top - marginTop ),
         width: Math.ceil(width),
-        height: Math.ceil(height + topSize + bottomSize),
+        height: Math.ceil(height + marginTop + marginBottom ),
       };
     },
     { selector },
@@ -98,7 +91,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
   const viewport = page.viewport();
 
   if (viewport.height < height) {
-    await page.setViewport({ ...viewport, ...{ height } });
+    await page.setViewport({ ...viewport, ...{height: height + y} });
   }
 
   clipMap.set(id, { x, y, width, height });
