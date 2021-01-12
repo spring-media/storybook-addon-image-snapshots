@@ -19,7 +19,6 @@ However, the main purpose is to run the tests against a (chrome) browser that is
     - [Display snapshots in storybook](#display-snapshots-in-storybook)
 - [Notes](#notes)
     - [Why Docker?](#why-docker)
-- [Playground](#playground)
 
 ## Getting Started
 
@@ -89,8 +88,6 @@ docker run -p 9222:3000 -d --rm --name chrome -v $(pwd)/storybook-static/:/opt/s
 > Since the tests are running in a docker container, we must mount the local static directory into the containers file system
 
 Change the `storybookUrl` option (see [Custom Configuration](#custom-configuration)) to `file:///opt/storybook-static`.
-
-Take a look at the [Playground](playground) for a working example.
 
 ### Testing different viewports
 
@@ -207,8 +204,6 @@ The last thing is to add the directory of your image snapshots to the static-dir
 
 > The example above assumes, that the images are be located within the .image-snapshots directory.
 
-Take a look into the [playground](playground) app to see an example how it works.
-
 ## Notes
 
 ### Why Docker?
@@ -217,6 +212,3 @@ There are some challenges when it comes to capture screens from a browser as des
 Because of that, we need a way to create a result that is as much as possible independent of the host system. 
 By using docker, we get an isolated system that is reliable enough to produce the same results on different host systems.
 
-## Playground
-
-Try out the [playground](playground) to find working examples for this plugin.
