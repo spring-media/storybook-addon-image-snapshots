@@ -54,14 +54,14 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
-    "@storybook/addon-storyshots": "6.1.11",
-    "@storybook/addon-storyshots-puppeteer": "6.1.11",
-    "@storybook/addons": "6.1.11",
-    "@storybook/api": "6.1.11",
-    "@storybook/components": "6.1.11",
-    "core-js": "3.6.5",
+    "@storybook/addon-storyshots": "6.1.12",
+    "@storybook/addon-storyshots-puppeteer": "6.1.12",
+    "@storybook/addons": "6.1.12",
+    "@storybook/api": "6.1.12",
+    "@storybook/components": "6.1.12",
+    "core-js": "3.8.2",
     "puppeteer-core": "2.1.1",
-    "react": "16.14.0 "
+    "react": "16.13.1"
   },
   "peerDependencies": {
     "react": "*"
