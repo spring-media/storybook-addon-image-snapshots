@@ -38,8 +38,9 @@ const getDesiredViewport = (viewports: Viewports, defaultViewport: string): pupp
 
 const clipMap = new Map();
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-types
 const getScreenshotOptions = ({ context: { id } }: ScreenshotOptions): object => {
   if (!clipMap.has(id)) {
     return {};
@@ -57,7 +58,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       },
       [PARAM_KEY]: { selector } = { selector: null },
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     id,
   } = context;
@@ -75,8 +76,8 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
       const element = document.querySelector(selector);
       const { x: left, y: top, width, height } = element.getBoundingClientRect();
       const style = getComputedStyle(element);
-      const marginTop = parseInt(style.marginTop);
-      const marginBottom = parseInt(style.marginBottom);
+      const marginTop = parseInt(style.marginTop, 10);
+      const marginBottom = parseInt(style.marginBottom, 10);
 
       return {
         x: left,
@@ -91,7 +92,7 @@ const beforeScreenshot = async (page: puppeteer.Page, { context }: ScreenshotOpt
   const viewport = page.viewport();
 
   if (viewport.height < height) {
-    await page.setViewport({ ...viewport, ...{ height } });
+    await page.setViewport({ ...viewport, ...{ height: height + y } });
   }
 
   clipMap.set(id, { x, y, width, height });
@@ -119,7 +120,7 @@ export const initImageSnapshots = (config = {}): void => {
 
   return initStoryShots({
     ...storyShotsConfig,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     test: imageSnapshot({ ...storyShotsConfig }),
   });
