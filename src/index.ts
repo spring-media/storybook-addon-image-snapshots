@@ -1,6 +1,6 @@
 import initStoryShots from '@storybook/addon-storyshots';
 import { Context, imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import { DEFAULT_CONFIG } from './config';
 import { PARAM_KEY } from './constants';
 
@@ -114,14 +114,16 @@ export const initImageSnapshots = (config = {}): void => {
   const storyShotsConfig = { ...DEFAULT_CONFIG, ...imageSnapshotConfig, ...config };
   const { browserUrl } = storyShotsConfig;
 
-  afterAll(async () => {
-    await browser.close();
-  });
-
-  return initStoryShots({
+  const storyShots = initStoryShots({
     ...storyShotsConfig,
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     test: imageSnapshot({ ...storyShotsConfig }),
   });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  return storyShots;
 };
